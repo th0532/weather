@@ -21,6 +21,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "React Native study",
+    "githubUrl": "https://github.com/th0532/weather"
   }
 }
