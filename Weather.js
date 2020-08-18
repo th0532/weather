@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, StatusBar } from "react-native";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import { LinearGradient } from 'expo-linear-gradient';
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 
@@ -49,7 +49,7 @@ const weatherOptions = {
     },
 }
 
-export default function Weather({temp, condition}){
+export default function Weather({temp, condition, areaname}){
     return(
         <LinearGradient
         colors={weatherOptions[condition].gradient}
@@ -57,7 +57,8 @@ export default function Weather({temp, condition}){
             <StatusBar barStyle="light-content"/>
             <View style={styles.halfContainer}>
                 <MaterialCommunityIcons name={weatherOptions[condition].iconName} size={96} color="white"></MaterialCommunityIcons>
-                <Text style={styles.temp}>{temp} °C</Text>
+                <Text style={styles.temp}>{parseInt(temp)}°C</Text>
+                <Text style={styles.Title}>{areaname}</Text>
             </View>
             <View style={{...styles.halfContainer, ...styles.textContainer}}>
                 <Text style={styles.Title}>{weatherOptions[condition].title}</Text>
@@ -68,9 +69,8 @@ export default function Weather({temp, condition}){
     )
 }
 
-Weather.PropTypes = {
-    temp: PropTypes.number.isRequired,
-    condition: PropTypes.oneOf([
+Weather.propTypes = {
+    condition: propTypes.oneOf([
         "Thunderstorm",
         "Drizzle", 
         "Rain", 

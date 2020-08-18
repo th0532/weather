@@ -10,16 +10,19 @@ export default function App(){
   const [isLoading, setIsLoading] = useState(true);
   const [temp, setTemp] = useState();
   const [condition, setCondition] = useState("Clear");
+  const [areaname, setareaname] = useState();
 
   const getWeather = async(latitude, longitude) =>{
     const {data:{
       main:{temp},
-      weather
+      weather,
+      name
     }} = await axios.get(
       `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`)
       setIsLoading(false);
       setTemp(temp);
       setCondition(weather[0].main);
+      setareaname(name);
     }
    getLocation = async() =>{
      try {
@@ -28,8 +31,8 @@ export default function App(){
           coords:{latitude, longitude}
         } = await Location.getCurrentPositionAsync()
 
-        getWeather(latitude, longitude)
-        
+        // 경도 음수 값으로 받아오는 error
+        getWeather(latitude, Math.abs(longitude))
      } catch (error) {
         Alert.alert("can't find you", "So sad");
      }
@@ -42,7 +45,7 @@ export default function App(){
 
     return (
       <>
-      {isLoading ? <Loading /> : <Weather temp={temp} condition={condition}/>}
+      {isLoading ? <Loading /> : <Weather temp={temp} condition={condition} areaname={areaname}/>}
       </>
     );
 }
